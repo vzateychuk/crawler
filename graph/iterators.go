@@ -1,4 +1,4 @@
-package dao
+package graph
 
 /*
 Here introduced generic Iterator.
