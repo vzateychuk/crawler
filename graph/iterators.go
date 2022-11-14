@@ -23,7 +23,7 @@ loop – we only need to check once after exiting the for loop. This pattern
 yields cleaner-looking code and is actually used in various places within
 the Go standard library, such as the Scanner type from the bufio package.
 */
-type Iterator[K comparable] interface {
+type Iterator interface {
 
 	// Next advances the iterator. If no more items are available or an error occurs, calls to Next() return false.
 	Next() bool
@@ -31,8 +31,6 @@ type Iterator[K comparable] interface {
 	Error() error
 	// Close releases any resources associated with an iterator.
 	Close() error
-	// Current returns the currently fetched object.
-	Current() *K
 }
 
 /*
