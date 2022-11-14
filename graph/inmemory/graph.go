@@ -12,7 +12,7 @@ type edgeList []uuid.UUID
 
 type GraphInMemory struct {
 	// ensure that our implementation is safe for concurrent access
-	mu sync.Mutex
+	mu sync.RWMutex
 
 	//  links/edges maintain the set of Link and Edge models that have been inserted into the graph.
 	links map[uuid.UUID]*graph.Link

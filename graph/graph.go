@@ -8,6 +8,7 @@ import (
 )
 
 var (
+	ErrNotFound         = errors.New("not found")
 	ErrUnknownEdgeLinks = errors.New("unknown edge links")
 )
 

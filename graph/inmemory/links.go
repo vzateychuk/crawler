@@ -2,6 +2,7 @@ package inmemory
 
 import (
 	"github.com/google/uuid"
+	"golang.org/x/xerrors"
 
 	"vez/graph"
 )
@@ -51,4 +52,23 @@ func (s *GraphInMemory) UpsertLink(link *graph.Link) error {
 		return nil
 	}
 
+}
+
+func (s *GraphInMemory) FindLink(id uuid.UUID) (*graph.Link, error) {
+
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+
+	link := s.links[id]
+	if link == nil {
+		return nil, xerrors.Errorf("find link: %w", graph.ErrNotFound)
+	}
+
+	// Since we want to ensure that no external code can modify the graph's
+	//contents without invoking the UpsertLink method,
+	//the FindLink implementation always returns a copy of the link that is
+	//stored in the graph.
+	lCopy := new(graph.Link)
+	*lCopy = *link
+	return lCopy, nil
 }
