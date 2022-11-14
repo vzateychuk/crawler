@@ -1,9 +1,14 @@
 package graph
 
 import (
+	"errors"
 	"time"
 
 	"github.com/google/uuid"
+)
+
+var (
+	ErrUnknownEdgeLinks = errors.New("unknown edge links")
 )
 
 type Graph interface {
