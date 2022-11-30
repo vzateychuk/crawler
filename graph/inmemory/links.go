@@ -81,9 +81,9 @@ func (s *GraphInMemory) Links(fromID, toID uuid.UUID, retrievedBefore time.Time)
 	s.mu.RLock()
 	defer s.mu.RUnlock()
 
-	//  iterate all the links in the graph, searching for the ones that belong to
-	//the [fromID, toID) partition range and whose RetrievedAt value is less than
-	//the specified retrievedBefore
+	// iterate all the links in the graph, searching for the ones that belong to
+	// the [fromID, toID) partition range and whose RetrievedAt value is less than
+	// the specified retrievedBefore
 	var list []*graph.Link
 	for linkId, link := range s.links {
 		if id := linkId.String(); id >= from && id < to && link.RetrievedAt.Before(retrievedBefore) {

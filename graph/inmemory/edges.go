@@ -69,3 +69,24 @@ func (s *GraphInMemory) RemoveStaleEdges(fromID uuid.UUID, updatedBefore time.Ti
 	s.linkEdgeMap[fromID] = newEdgeList
 	return nil
 }
+
+func (s *GraphInMemory) Edges(fromID, toID uuid.UUID, updatedBefore time.Time) (graph.EdgeIterator, error) {
+	from, to := fromID.String(), toID.String()
+
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+
+	// iterate all the edges in the graph, searching for the ones that belong to
+	// the [fromID, toID) partition range and whose UpdatedAt value is less than
+	// the specified updatedBefore
+	var list []*graph.Edge
+	for edgeID, edge := range s.edges {
+		if id := edgeID.String(); id >= from && id < to && edge.UpdatedAt.Before(updatedBefore) {
+			list = append(list, edge)
+		}
+	}
+
+	// create a new edgeIterator instance and return it to the user
+	iter := &edgeIterator{s: s, edges: list}
+	return iter, nil
+}
