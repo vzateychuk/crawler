@@ -52,3 +52,20 @@ func (s *GraphInMemory) UpsertEdge(edge *graph.Edge) error {
 	return nil
 
 }
+
+func (s *GraphInMemory) RemoveStaleEdges(fromID uuid.UUID, updatedBefore time.Time) error {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+
+	var newEdgeList edgeList
+	for _, edgeID := range s.linkEdgeMap[fromID] {
+		edge := s.edges[edgeID]
+		if edge.UpdatedAt.Before(updatedBefore) {
+			delete(s.edges, edgeID)
+		} else {
+			newEdgeList = append(newEdgeList, edgeID)
+		}
+	}
+	s.linkEdgeMap[fromID] = newEdgeList
+	return nil
+}

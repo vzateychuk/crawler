@@ -19,7 +19,7 @@ func (i linkIterator) Next() bool {
 	return true
 }
 
-// Unless we have already reached the end of the list of links, we
+// Link Unless we have already reached the end of the list of links, we
 // advance curIndex and return true to indicate that more data is available for
 // retrieval via a call to the Link method
 func (i *linkIterator) Link() *graph.Link {
