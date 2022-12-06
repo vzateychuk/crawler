@@ -8,6 +8,16 @@ type edgeIterator struct {
 	s        *GraphInMemory
 	edges    []*graph.Edge
 	curIndex int
+	err      error
+}
+
+func (i edgeIterator) Error() error {
+	return i.err
+}
+
+func (i edgeIterator) Close() error {
+	i.curIndex = 0
+	return nil
 }
 
 // Next return true if there is any records left

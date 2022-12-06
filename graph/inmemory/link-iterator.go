@@ -8,6 +8,16 @@ type linkIterator struct {
 	s        *GraphInMemory
 	links    []*graph.Link
 	curIndex int
+	err      error
+}
+
+func (i linkIterator) Error() error {
+	return i.err
+}
+
+func (i linkIterator) Close() error {
+	i.curIndex = 0
+	return nil
 }
 
 // Next return true if there is any records left

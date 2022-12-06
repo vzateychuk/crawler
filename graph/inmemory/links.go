@@ -92,5 +92,6 @@ func (s *GraphInMemory) Links(fromID, toID uuid.UUID, retrievedBefore time.Time)
 	}
 
 	// create a new linkIterator instance and return it to the user
-	return &linkIterator{s: s, links: list}, nil
+	iterator := &linkIterator{s: s, links: list}
+	return iterator, nil
 }
