@@ -12,7 +12,7 @@ services:
       - "8080:8080"
     command: start-single-node --insecure
     volumes:
-      - "${PWD}/data1:/cockroach/cockroach-data"
+      - "./data/roach1:/cockroach/cockroach-data"
 
 networks:
   roachnet:
